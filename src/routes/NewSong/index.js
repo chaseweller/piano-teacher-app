@@ -1,37 +1,46 @@
 import React, { Component } from 'react';
 import { DatePicker, TextField, Paper, RaisedButton } from 'material-ui';
-import base from '../../../firebase';
+import StarRatingComponent from 'react-star-rating-component';
+import base from '../../firebase';
+import './index.css';
 
 const buttonStyle = {
   margin: 5
 };
 
 const paperStyle = {
-  height: 400,
+  height: 600,
   width: 300,
   margin: 30,
   textAlign: 'center',
   display: 'inline-block',
+
 };
 
-class addNewSong extends Component {
+export default class extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { newSong: {}, songTitle: '', songBook: '', notes: '' };
+    this.state = { songTitle: '', songBook: '', notes: '', date: '', rating: 1} ;
   }
 
-  componentDidMount() {
-    this.ref = base.syncState(`newSong`, {
-      context: this,
-      state: 'newSong',
-    });
+  // componentDidMount() {
+  //   this.ref = base.syncState(`newSong`, {
+  //     context: this,
+  //     state: 'newSong',
+  //   });
+  // }
+  onStarClick(nextValue) {
+    this.setState({rating: nextValue});
   }
 
-  componentWillUnmount() {
-    base.removeBinding(this.ref);
+  // componentWillUnmount() {
+  //   base.removeBinding(this.ref);
+  // };
+
+  setDate = (x, event) => {
+    console.log(JSON.stringify(event));
   };
-
 
   onSongSaved = (e) => {
     e.preventDefault();
@@ -46,7 +55,7 @@ class addNewSong extends Component {
         data: song,
         then(err) {
           if (!err) {
-            history.push('/home');
+            history.push('/currentSongs');
           }
         }
       });
@@ -56,7 +65,7 @@ class addNewSong extends Component {
         data: song,
         then(err) {
           if (!err) {
-            history.push('/home');
+            history.push('/currentSongs');
           }
         }
       })
@@ -66,13 +75,14 @@ class addNewSong extends Component {
 
   render() {
 
+    const { rating } = this.state;
 
     return (
-      <div>
+      <div className="Container">
         <Paper style={paperStyle} zDepth={4}>
           <form onSubmit={this.onSongSaved}>
             <h3>New Song</h3>
-            <DatePicker hintText="Lesson Date" autoOk={true}
+            <DatePicker hintText="Lesson Date" autoOk={true} onChange={this.setDate}
                         />
             <TextField floatingLabelText="Song Title"
                        value={this.state.songTitle}
@@ -81,8 +91,16 @@ class addNewSong extends Component {
             <TextField floatingLabelText="Song Book (opt)" value={this.state.songBook}
                        onChange={e => this.setState({ songBook: e.target.value})}/>
             <TextField multiLine={true} floatingLabelText="Notes" rows={2} value={this.state.notes}
-                       onChange={e => this.setState({ notes: e.target.value})}/>
-            <RaisedButton label="Cancel" style={buttonStyle}/>
+                       onChange={e => this.setState({ notes: e.target.value})}/><br/>
+            <div style={{fontSize: 25, marginTop: 15}}>
+            <StarRatingComponent
+              name="Rating"
+              starCount={3}
+              value={rating}
+              onStarClick={this.onStarClick.bind(this)}
+            /></div><br/>
+
+            <RaisedButton label="Cancel" style={buttonStyle} onTouchTap={e => console.log(this.props.history.goBack())}/>
             <RaisedButton type="submit" label="Save" primary={true} style={buttonStyle} />
           </form>
         </Paper>
@@ -90,5 +108,3 @@ class addNewSong extends Component {
     )
   }
 }
-
-export default addNewSong;
