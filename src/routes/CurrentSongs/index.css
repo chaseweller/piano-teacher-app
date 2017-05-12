@@ -1,0 +1,23 @@
+.table {
+    backgroundColor: blue
+}
+
+.tableHeader {
+
+}
+.tableHeaderColumn {
+}
+.tableRow {
+}
+.tableColumn {
+    width: auto;
+    word-wrap: normal;
+}
+.tableSongTitleColumn {
+
+}
+.tableSongBookColumn {
+}
+.tableNotesColumn {
+}
+
