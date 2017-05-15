@@ -9,7 +9,7 @@ import './index.css';
 injectTapEventPlugin();
 
 ReactDOM.render(
-  <MuiThemeProvider>
+  <MuiThemeProvider >
   <AppLayout />
   </MuiThemeProvider>,
   document.getElementById('root')
