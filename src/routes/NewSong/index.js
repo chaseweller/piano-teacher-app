@@ -13,8 +13,7 @@ const paperStyle = {
   width: 300,
   margin: 30,
   textAlign: 'center',
-  display: 'inline-block',
-
+  display: 'inline-block'
 };
 
 export default class extends Component {
@@ -40,10 +39,12 @@ export default class extends Component {
 
   setDate = (x, event) => {
     console.log(JSON.stringify(event));
+    console.log(event);
   };
 
   onSongSaved = (e) => {
     e.preventDefault();
+
 
     const song = this.state;
     const { history } = this.props;
@@ -57,6 +58,7 @@ export default class extends Component {
           if (!err) {
             history.push('/currentSongs');
           }
+
         }
       });
     } else {
@@ -82,12 +84,10 @@ export default class extends Component {
         <Paper style={paperStyle} zDepth={4}>
           <form onSubmit={this.onSongSaved}>
             <h3>New Song</h3>
-            <DatePicker hintText="Lesson Date" autoOk={true} onChange={this.setDate}
-                        />
+            <DatePicker hintText="Lesson Date" autoOk={true} onChange={this.setDate} />
             <TextField floatingLabelText="Song Title"
-                       value={this.state.songTitle}
-                       onChange={e => this.setState({ songTitle: e.target.value })}
-                       required minLength={2}/>
+                       value={this.state.songTitle} required minLength={2}
+                       onChange={e => this.setState({ songTitle: e.target.value })}/>
             <TextField floatingLabelText="Song Book (opt)" value={this.state.songBook}
                        onChange={e => this.setState({ songBook: e.target.value})}/>
             <TextField multiLine={true} floatingLabelText="Notes" rows={2} value={this.state.notes}
@@ -97,9 +97,8 @@ export default class extends Component {
               name="Rating"
               starCount={3}
               value={rating}
-              onStarClick={this.onStarClick.bind(this)}
-            /></div><br/>
-
+              onStarClick={this.onStarClick.bind(this)}/>
+            </div><br/>
             <RaisedButton label="Cancel" style={buttonStyle} onTouchTap={e => console.log(this.props.history.goBack())}/>
             <RaisedButton type="submit" label="Save" primary={true} style={buttonStyle} />
           </form>
